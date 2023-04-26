@@ -15,7 +15,6 @@ r, p = stats.pearsonr(bmi, Diabetes)
 
 # print the results
 print("Pearson correlation coefficient:", r)
-# print("p-value:", p)
 
 # check if the p-value is less than or equal to your chosen significance level
 alpha = 0.05
@@ -36,11 +35,7 @@ se = std_bmi / np.sqrt(n)
 t = stats.t.ppf(1 - alpha / 2, n - 1)
 ci_low = mean_bmi - t * se
 ci_high = mean_bmi + t * se
-print("p-value:",p  ,"with 2 decimal","{:.2f}".format(p))
-print("Mean BMI:", mean_bmi)
-print("Standard deviation of BMI:", std_bmi)
-print("Standard error of the mean:", se)
-print("95% confidence interval for the mean BMI:", (ci_low, ci_high))
+print("p-value:", "{:.2f}".format(p))
 
 # create a boxplot of BMI values for people with and without diabetes
 labels = ['No Diabetes', 'Diabetes']
@@ -51,15 +46,15 @@ plt.title('BMI Distribution for People with and without Diabetes')
 plt.show()
 
 # create a histogram of BMI values with a standard normal distribution overlay
-plt.hist(bmi, bins=40, density=True, alpha=0.6, color='b')
+plt.hist(bmi, bins=40, density=True, alpha=0.5, color='b')
 xmin, xmax = plt.xlim()
 x = np.linspace(xmin, xmax, 300)
 p = stats.norm.pdf(x, mean_bmi, std_bmi)
 plt.plot(x, p, 'k', linewidth=2)
 plt.axvline(ci_low, color='r', linestyle='--')
 plt.axvline(ci_high, color='r', linestyle='--')
-
 plt.xlabel('BMI')
 plt.ylabel('Density')
 plt.title('BMI Distribution with Standard Normal Distribution Overlay')
+plt.text(xmax * 0.1, p.max() * 0.9, "p-value: " + "{:.2f}".format(p), fontsize=12)
 plt.show()
